@@ -8,6 +8,7 @@
   const ES = {
     skip: "Ir al contenido",
     "nav.services": "Servicios",
+    "nav.power": "Power Platform",
     "nav.why": "¿Por qué RD?",
     "nav.models": "Cómo trabajamos",
     "nav.team": "Equipo",
@@ -37,6 +38,27 @@
     "svc.4t": "Analítica de Datos y Procesos",
     "svc.4d": "Análisis estadístico, minería de procesos y tableros que muestran dónde se pierde tiempo y dinero — para automatizar donde más rápido se recupera la inversión.",
     "svc.4g": "Estadística · Minería de procesos · Tableros",
+    "svc.5t": "Power Platform y Low-Code",
+    "svc.new": "Nuevo",
+    "svc.5d": "Aplicaciones de negocio, automatizaciones, tableros y agentes de IA sobre Microsoft Power Platform — entregados en semanas y gobernados para crecer. <a href=\"#power\" class=\"inline-link\">Ver la práctica →</a>",
+
+    "pp.label": "Práctica Power Platform",
+    "pp.title": "Low-code, alto impacto.<br />Entregamos en semanas. Gobernamos por años.",
+    "pp.lead": "Diseñamos, construimos y gobernamos soluciones en Microsoft Power Platform — apps, automatizaciones, tableros y agentes de IA — para que sus equipos dejen de pelear con sus herramientas. Con especialistas bilingües en su horario.",
+    "pp.1t": "Construir",
+    "pp.1s": "Soluciones Power a la medida",
+    "pp.1d": "Power Apps canvas y model-driven sobre Dataverse o SharePoint, conectadas a los sistemas que ya usa. Entregadas con documentación y una transferencia ordenada.",
+    "pp.2t": "Automatizar",
+    "pp.2s": "Flujos y agentes de IA",
+    "pp.2d": "Flujos de Power Automate en la nube y de escritorio, y agentes en Copilot Studio — incluyendo flujos multiagente que pasan el trabajo entre sistemas y personas.",
+    "pp.3t": "Gobernar",
+    "pp.3s": "Centro de Excelencia",
+    "pp.3d": "Estrategia de entornos, políticas de prevención de pérdida de datos, el CoE Starter Kit y pipelines de ALM — para que el low-code crezca con orden.",
+    "pp.4t": "Habilitar",
+    "pp.4s": "Desarrolladores ciudadanos",
+    "pp.4d": "Talleres prácticos para \"construirlo en un día\" y formación de desarrolladores ciudadanos en español o inglés, con soporte continuo para lo que su gente construye.",
+    "pp.pilot": "<b>Empiece con un piloto.</b> Un proceso, una solución funcionando, usuarios reales — y luego una hoja de ruta para escalar.",
+    "pp.cta": "Definir un piloto de Power Platform",
 
     "why.label": "¿Por qué República Dominicana?",
     "why.cap": "La diferencia entre su oficina y la nuestra. Todos los días del año.",
@@ -61,7 +83,13 @@
     "why.r5b": "Directores en el terreno",
 
     "mod.label": "Cómo trabajamos",
-    "mod.title": "Dos formas de empezar. Usted decide cuánto delega.",
+    "mod.title": "Tres formas de empezar. Usted decide cuánto delega.",
+    "mod.3k": "Modalidad 03 — Usted contrata",
+    "mod.3t": "Colocación Directa",
+    "mod.3d": "Reclutamos en RD y usted contrata al candidato directamente en su nómina — o la de su cliente. Un solo pago por éxito, sin márgenes recurrentes.",
+    "mod.3b1": "Evaluación de arquitectura por nuestro arquitecto principal",
+    "mod.3b2": "Entrevista de liderazgo con nuestro director en el país",
+    "mod.3b3": "Sin intermediación de nómina ni cuotas mensuales",
     "mod.1k": "Modalidad 01 — Usted dirige",
     "mod.1t": "Aumento de Personal",
     "mod.1d": "Buscamos, evaluamos y colocamos especialistas bilingües que se integran a su equipo. Usted mantiene la dirección del día a día.",
@@ -118,6 +146,8 @@
     "f.o4": "Datos y Analítica",
     "f.o5": "Aumento de personal",
     "f.o6": "Célula gestionada",
+    "f.o7": "Power Platform",
+    "f.o8": "Colocación directa",
     "f.msg": "¿Cómo podemos ayudarle?",
     "f.send": "Enviar mensaje",
 
@@ -209,6 +239,12 @@
     note.textContent = MSG[lang].opening;
     window.location.href = "mailto:arincon@rcsolucionesrpa.com,orincon@rcsolucionesrpa.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
   });
+
+  /* "Scope a Power Platform pilot" pre-selects Power Platform in the form */
+  document.querySelectorAll("[data-pp-cta]").forEach((a) => a.addEventListener("click", () => {
+    const r = form.querySelector('input[name="interest"][value="Power Platform & Low-Code"]');
+    if (r) r.checked = true;
+  }));
 
   document.getElementById("year").textContent = new Date().getFullYear();
 })();
