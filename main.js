@@ -16,7 +16,7 @@
     "nav.cta": "Hablemos",
 
     "hero.kicker": "Equipos nearshore · Santo Domingo <b>→</b> Estados Unidos",
-    "hero.title": "Su equipo,<br />encendid" + PWR + ".",
+    "hero.title": "Su equipo,<br /><span class=\"nw\">encendid" + PWR + ".</span>",
     "hero.lead": "Formamos y dirigimos equipos de automatización, finanzas y software en República Dominicana para empresas de EE. UU. — bilingües, en su horario y liderados por profesionales con experiencia a escala empresarial.",
     "hero.cta1": "Agendar llamada",
     "hero.cta2": "Cómo trabajamos",
@@ -132,7 +132,7 @@
     "car.r4": "Arquitectos de Soluciones y Líderes de Programa",
 
     "con.label": "Contacto",
-    "con.title": "Encendámosl" + PWR + ".",
+    "con.title": "<span class=\"nw\">Encendámosl" + PWR + ".</span>",
     "con.lead": "Un especialista o una célula completa — cuéntenos qué necesita y le respondemos en un día hábil con los próximos pasos.",
     "con.us": "Estados Unidos",
     "con.dr": "República Dominicana",

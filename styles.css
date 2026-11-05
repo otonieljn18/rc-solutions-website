@@ -16,13 +16,17 @@
   --orange-ink: #b97800; /* orange that passes contrast on white for small text */
 
   --font: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;
-  --wrap: 1280px;
+  --wrap: 80rem;          /* 1280px at 16px root; grows with the root size on large screens */
+  --hh: 5.25rem;          /* header height */
   --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 88px; -webkit-text-size-adjust: 100%; }
-body { margin: 0; font: 400 18px/1.6 var(--font); color: var(--ink); background: var(--white); -webkit-font-smoothing: antialiased; }
+/* Fluid scale: 16px up to ~1440px wide, then grows (≈20px at 1920, ≈25px at 2560, capped at 30px on 4K)
+   so the page reads the same on big monitors without browser zoom. Browser zoom still works on top. */
+html { font-size: clamp(16px, calc(4px + 0.833vw), 30px); scroll-behavior: smooth; scroll-padding-top: calc(var(--hh) + .5rem); -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 400 1.125rem/1.6 var(--font); color: var(--ink); background: var(--white); -webkit-font-smoothing: antialiased; }
+.nw { white-space: nowrap; }
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; }
 h1, h2, h3 { margin: 0; font-weight: 400; line-height: 1.05; letter-spacing: -0.01em; }
@@ -72,10 +76,12 @@ svg use { pointer-events: none; }
 /* ---------- Header ---------- */
 .header { position: fixed; inset: 0 0 auto; z-index: 50; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color .3s; }
 .header.is-scrolled { border-color: var(--line); }
-.header__in { height: 84px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
-.brand img { height: 30px; width: auto; }
-.nav { display: flex; align-items: center; gap: 2.2rem; }
-.nav a:not(.btn) { text-decoration: none; font-size: .8rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; position: relative; }
+.header__in { height: var(--hh); display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.brand { flex-shrink: 0; }
+.brand img { height: 1.9rem; width: auto; }
+.nav { display: flex; align-items: center; gap: 1.7rem; }
+.nav a { white-space: nowrap; }
+.nav a:not(.btn) { text-decoration: none; font-size: .78rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; position: relative; }
 .nav a:not(.btn)::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 1.5px; background: var(--orange); transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease); }
 .nav a:not(.btn):hover::after { transform: scaleX(1); }
 .nav__cta { padding: .8rem 1.1rem; }
@@ -91,9 +97,10 @@ svg use { pointer-events: none; }
 .burger[aria-expanded="true"] span:last-child { top: 22px; transform: rotate(-45deg); }
 
 /* ---------- Hero ---------- */
-.hero { padding: 170px 0 0; }
+.hero { padding: calc(var(--hh) + 5.5rem) 0 0; }
 .hero__grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 3rem; align-items: end; margin-top: 2.2rem; }
-.hero__title { font-size: clamp(3.4rem, 9.4vw, 9.4rem); font-weight: 400; line-height: .95; letter-spacing: -0.035em; }
+/* widest line ("switched ⏻n.") is ~5.2em, so cap the size to always fit its column */
+.hero__title { font-size: clamp(3.2rem, 9.4vw, 8.4rem); font-weight: 400; line-height: .95; letter-spacing: -0.035em; }
 .o { display: inline-block; width: .74em; height: .74em; vertical-align: -.02em; margin: 0 .01em 0 .02em; color: var(--orange); }
 .o svg { width: 100%; height: 100%; }
 .hero__lead { font-size: 1.25rem; font-weight: 300; color: var(--ink-2); }
@@ -115,11 +122,11 @@ svg use { pointer-events: none; }
 .marquee { background: var(--ink); color: var(--white); overflow: hidden; padding: 1.4rem 0; margin-top: 0; }
 .marquee__track { display: flex; align-items: center; gap: 2.2rem; width: max-content; animation: marquee 40s linear infinite; }
 .marquee span { font-size: 1.6rem; font-weight: 300; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
-.marquee svg { width: 22px; height: 22px; color: var(--orange); flex: none; }
+.marquee svg { width: 1.4rem; height: 1.4rem; color: var(--orange); flex: none; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ---------- Sections ---------- */
-.sec { padding: clamp(90px, 12vw, 160px) 0; }
+.sec { padding: clamp(5.5rem, 10vw, 10rem) 0; }
 .sec--stone { background: var(--stone); }
 .sec--ink { background: var(--ink); color: var(--white); }
 .sec--ink .lead { color: var(--grey-light); }
@@ -137,7 +144,7 @@ svg use { pointer-events: none; }
 .svc h3 { font-size: clamp(1.7rem, 2.8vw, 2.5rem); font-weight: 400; letter-spacing: -0.015em; }
 .svc__body p:first-child { color: var(--ink-2); font-weight: 300; font-size: 1.08rem; }
 .svc__tags { margin-top: 1rem; font-size: .75rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--grey); }
-.svc__pwr { width: 34px; height: 34px; color: var(--line); justify-self: end; margin-top: .4rem; transition: color .35s, transform .5s var(--ease); }
+.svc__pwr { width: 2.1rem; height: 2.1rem; color: var(--line); justify-self: end; margin-top: .4rem; transition: color .35s, transform .5s var(--ease); }
 .svc__row:hover { background: var(--stone); padding-left: 1.5rem; padding-right: 1.5rem; }
 .svc__row:hover .svc__pwr { color: var(--orange); transform: rotate(180deg); }
 
@@ -165,7 +172,7 @@ svg use { pointer-events: none; }
 
 /* ---------- Why ---------- */
 .why { display: grid; grid-template-columns: 1fr 1.35fr; gap: clamp(3rem, 7vw, 7rem); align-items: start; }
-.why__left { position: sticky; top: 130px; }
+.why__left { position: sticky; top: calc(var(--hh) + 3rem); }
 .why__big { font-size: clamp(7rem, 17vw, 15rem); font-weight: 300; line-height: .85; letter-spacing: -0.05em; margin-top: 2.5rem; }
 .why__big small { font-size: .3em; letter-spacing: 0; color: var(--orange); margin-left: .1em; font-weight: 400; }
 .why__cap { margin-top: 1.4rem; max-width: 20rem; color: var(--grey); }
@@ -198,9 +205,9 @@ svg use { pointer-events: none; }
 .model .btn { align-self: flex-start; }
 
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: clamp(4rem, 7vw, 6rem); position: relative; }
-.steps::before { content: ""; position: absolute; top: 20px; left: 20px; right: 0; height: 1.5px; background: linear-gradient(90deg, var(--line), var(--orange)); }
+.steps::before { content: ""; position: absolute; top: 1.25rem; left: 1.25rem; right: 0; height: 1.5px; background: linear-gradient(90deg, var(--line), var(--orange)); }
 .steps li { position: relative; }
-.steps svg { width: 40px; height: 40px; background: var(--white); padding: 2px; position: relative; }
+.steps svg { width: 2.5rem; height: 2.5rem; background: var(--white); padding: 2px; position: relative; }
 .steps .s0 { color: var(--line); } .steps .s1 { color: #e9cf96; } .steps .s2 { color: #f1bb4f; } .steps .s3 { color: var(--orange); }
 .steps b { display: block; margin-top: 1.4rem; font-size: 1.5rem; font-weight: 400; }
 .steps p { margin-top: .4rem; color: var(--grey); font-size: 1rem; }
@@ -261,7 +268,7 @@ svg use { pointer-events: none; }
 /* ---------- Footer ---------- */
 .footer { background: var(--ink); color: var(--grey-light); padding: clamp(4rem, 8vw, 6rem) 0 2rem; }
 .footer__top { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; padding-bottom: 3rem; border-bottom: 1px solid var(--line-ink); }
-.footer__logo { width: min(520px, 100%); height: auto; }
+.footer__logo { width: min(32rem, 100%); height: auto; }
 .footer__top p { max-width: 24rem; font-weight: 300; }
 .footer__bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-top: 1.6rem; font-size: .85rem; }
 .footer a { text-decoration: none; }
@@ -291,10 +298,11 @@ svg use { pointer-events: none; }
   .svc__body { grid-column: 2 / 3; }
   .svc__pwr { grid-row: 1; grid-column: 3; }
 }
-@media (max-width: 960px) {
+/* compact (☰) menu whenever the full menu can't fit on one line */
+@media (max-width: 1279px) {
   .burger { display: block; }
   .nav {
-    position: fixed; inset: 84px 0 auto; flex-direction: column; align-items: stretch; gap: 0;
+    position: fixed; inset: var(--hh) 0 auto; flex-direction: column; align-items: stretch; gap: 0;
     background: var(--white); padding: 0 1.5rem 2rem; border-bottom: 1px solid var(--line);
     opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .25s, transform .25s var(--ease), visibility .25s;
   }
@@ -302,6 +310,9 @@ svg use { pointer-events: none; }
   .nav a:not(.btn) { padding: 1.15rem 0; border-bottom: 1px solid var(--line); font-size: .9rem; }
   .nav a:not(.btn)::after { display: none; }
   .nav__cta { margin-top: 1.5rem; justify-content: space-between; }
+  .header:has(.nav.open) { background: var(--white); }
+}
+@media (max-width: 960px) {
   .hero__grid, .sec__head, .why, .careers, .contact, .team__head { grid-template-columns: 1fr; }
   .team__head .label { grid-row: auto; }
   .why__left { position: static; }
@@ -315,18 +326,17 @@ svg use { pointer-events: none; }
   .pillar, .pillar + .pillar { padding: 1.8rem 0; border-left: 0; }
   .pillar + .pillar { border-top: 1px solid var(--line-ink); }
   .pillar + .pillar::after { left: 0; }
-  body { font-size: 17px; }
+  :root { --hh: 4.5rem; }
+  body { font-size: 1.0625rem; }
   .wrap { width: min(100% - 2.5rem, var(--wrap)); }
-  .header__in { height: 72px; }
-  .nav { inset: 72px 0 auto; }
-  .brand img { height: 22px; }
-  .hero { padding-top: 130px; }
+  .brand img { height: 1.4rem; }
+  .hero { padding-top: calc(var(--hh) + 3.5rem); }
   .facts { grid-template-columns: 1fr; }
   .fact + .fact { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); }
   .svc__row { grid-template-columns: 1fr 2.4rem; gap: 1rem; }
   .svc__n { grid-column: 1; padding: 0; }
   .svc h3, .svc__body { grid-column: 1 / -1; }
-  .svc__pwr { grid-row: 1; grid-column: 2; width: 26px; height: 26px; margin: 0; }
+  .svc__pwr { grid-row: 1; grid-column: 2; width: 1.6rem; height: 1.6rem; margin: 0; }
   .vs__row { grid-template-columns: 1fr 1fr; }
   .vs dt { grid-column: 1 / -1; }
   .vs__head dt { display: none; }
