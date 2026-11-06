@@ -305,6 +305,61 @@
     items.forEach((el) => el.classList.add("in"));
   }
 
+  /* ---------- Lead source (first-party, no cookies) ----------
+     Remembers how a visitor first found us (campaign link, referring site or direct) and the last
+     call-to-action they clicked, so each lead in the Sheet shows where it came from. Kept only in this
+     browser's storage and sent only with the contact form. */
+  const SRC_KEY = "rc-src";
+  const SEARCH = /(^|\.)(google\.[a-z.]+|bing\.com|duckduckgo\.com|yahoo\.com|ecosia\.org|search\.brave\.com)$/;
+  const SOCIAL = /(^|\.)(linkedin\.com|lnkd\.in|facebook\.com|instagram\.com|t\.co|x\.com|twitter\.com|whatsapp\.com)$/;
+  function readTouch() {
+    const q = new URLSearchParams(location.search);
+    let host = "";
+    try { host = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, "") : ""; } catch (e) {}
+    if (host === location.hostname.replace(/^www\./, "")) host = "";   // moving between our own pages
+    return {
+      source: q.get("utm_source") || host || "direct",
+      medium: q.get("utm_medium") || (!host ? "none" : SEARCH.test(host) ? "organic" : SOCIAL.test(host) ? "social" : "referral"),
+      campaign: q.get("utm_campaign") || "",
+      landing: location.pathname + location.search,
+      at: new Date().toISOString().slice(0, 10)
+    };
+  }
+  function stored(store, fallback) {
+    try {
+      const s = store.getItem(SRC_KEY);
+      if (s) return JSON.parse(s);
+      store.setItem(SRC_KEY, JSON.stringify(fallback));
+    } catch (e) {}
+    return fallback;
+  }
+  const thisVisit = stored(sessionStorage, readTouch());
+  const firstVisit = stored(localStorage, thisVisit);
+
+  let lastCta = "";
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("a");
+    if (!a || !(a.getAttribute("href") === "#contact" || a.matches("[data-book],[data-wa],[data-bench],[data-pp-cta]"))) return;
+    const where = a.closest("section[id], header, footer");
+    const label = a.dataset.bench ? "Request profile " + a.dataset.bench
+      : a.hasAttribute("data-book") ? "Book a call"
+      : a.hasAttribute("data-wa") ? "WhatsApp"
+      : a.textContent.replace(/[→\s]+/g, " ").trim();
+    const section = where ? (where.id || where.tagName.toLowerCase()) : "";
+    lastCta = label + (section ? " (" + section + ")" : "");
+    window.rcTrack("cta_click", { cta: a.dataset.bench ? "Request profile" : label, profile: a.dataset.bench || undefined, section });
+  }, true);
+
+  /* Funnel: which sections people actually reach (each counted once per page view) */
+  if ("IntersectionObserver" in window) {
+    const seen = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      window.rcTrack("section_view", { section: en.target.id });
+      seen.unobserve(en.target);
+    }), { threshold: 0.35 });
+    document.querySelectorAll("main section[id]").forEach((s) => seen.observe(s));
+  }
+
   /* ---------- Contact form ----------
      Posts to a Google Apps Script web app owned by orincon@rcsolucionesrpa.com, which emails the
      lead to the team (reply-to = visitor) and logs it in the "RC Solutions — Website leads" sheet.
@@ -314,6 +369,7 @@
   const note = document.getElementById("form-note");
   const sendBtn = form.querySelector('button[type="submit"]');
   const openedAt = Date.now();
+  form.addEventListener("focusin", () => window.rcTrack("form_started", { lang }), { once: true });
 
   function mailtoFallback(d) {
     const subject = `[RC Solutions] ${d.interest} — ${d.company || d.name}`;
@@ -340,7 +396,14 @@
       message: f.message.value.trim(),
       lang,
       website: f.website.value,            // honeypot: humans never fill this
-      elapsed: Date.now() - openedAt
+      elapsed: Date.now() - openedAt,
+      source: firstVisit.source,
+      medium: firstVisit.medium,
+      campaign: firstVisit.campaign,
+      landing: firstVisit.landing,
+      firstSeen: firstVisit.at,
+      latest: [thisVisit.source, thisVisit.medium, thisVisit.campaign].filter(Boolean).join(" / "),
+      cta: lastCta
     };
 
     sendBtn.disabled = true;
@@ -350,9 +413,11 @@
       const res = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
       const out = await res.json();
       if (!out.ok) throw new Error(out.error || "failed");
+      window.rcTrack("form_submitted", { interest: data.interest, lang, source: data.source, cta: data.cta });  // no names or emails
       form.reset();
       note.textContent = MSG[lang].sent;
     } catch (err) {
+      window.rcTrack("form_failed", { interest: data.interest });
       note.textContent = MSG[lang].failed;
       setTimeout(() => mailtoFallback(data), 1200);
     } finally {

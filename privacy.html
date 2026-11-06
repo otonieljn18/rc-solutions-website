@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="analytics.js"></script>
   <style>
     .legal { padding: calc(var(--hh) + 4rem) 0 6rem; }
     .legal .wrap { max-width: 46rem; }
@@ -54,14 +55,15 @@
           <li><strong>Contact form:</strong> your name, company, work email, the service you're interested in and your message.</li>
           <li><strong>Call bookings:</strong> if you book a discovery call, Google Calendar collects your name and email to send the invitation and Google Meet link.</li>
           <li><strong>WhatsApp:</strong> if you message us on WhatsApp, we receive your phone number and message through WhatsApp.</li>
-          <li><strong>Site analytics:</strong> anonymous, aggregated visit statistics (pages viewed, country, device type) through Vercel Web Analytics. It does not use cookies and does not identify you personally.</li>
+          <li><strong>Site analytics:</strong> anonymous visit statistics (pages and sections viewed, buttons clicked, country, device type) through Vercel Web Analytics and PostHog. PostHog may also record anonymous session replays of how the page is used, with everything typed into form fields hidden. Neither uses cookies or identifies you personally; PostHog's anonymous id is kept only until you close the browser tab.</li>
+          <li><strong>How you found us:</strong> when you send the contact form, it also includes how you first reached our site (for example a search engine, LinkedIn or a campaign link), the date of that first visit and the button that brought you to the form. This is stored in your browser and sent only with the form.</li>
         </ul>
 
         <h2>How we use it</h2>
         <p>Only to answer your inquiry, prepare a proposal you asked for, schedule calls and follow up on that conversation. We do not sell, rent or share your information with third parties for marketing.</p>
 
         <h2>Where it is stored</h2>
-        <p>Form messages are emailed to our team and logged in a private Google Sheet in our Google Workspace account. Bookings live in our Google Calendar. The website is hosted by Vercel. These providers process the data on our behalf under their own security and privacy terms.</p>
+        <p>Form messages are emailed to our team and logged in a private Google Sheet in our Google Workspace account. Bookings live in our Google Calendar. The website is hosted by Vercel, and usage analytics are processed by PostHog in the United States. These providers process the data on our behalf under their own security and privacy terms.</p>
 
         <h2>How long we keep it</h2>
         <p>We keep inquiries for as long as needed to handle the conversation and any resulting business relationship, and delete them on request.</p>
@@ -85,14 +87,15 @@
           <li><strong>Formulario de contacto:</strong> su nombre, empresa, correo corporativo, el servicio de interés y su mensaje.</li>
           <li><strong>Agenda de llamadas:</strong> si agenda una llamada, Google Calendar recopila su nombre y correo para enviarle la invitación y el enlace de Google Meet.</li>
           <li><strong>WhatsApp:</strong> si nos escribe por WhatsApp, recibimos su número y su mensaje a través de WhatsApp.</li>
-          <li><strong>Analítica del sitio:</strong> estadísticas anónimas y agregadas de visitas (páginas vistas, país, tipo de dispositivo) mediante Vercel Web Analytics. No usa cookies y no lo identifica personalmente.</li>
+          <li><strong>Analítica del sitio:</strong> estadísticas anónimas de visitas (páginas y secciones vistas, botones pulsados, país, tipo de dispositivo) mediante Vercel Web Analytics y PostHog. PostHog también puede grabar repeticiones anónimas de cómo se usa la página, ocultando todo lo que se escribe en los formularios. Ninguno usa cookies ni lo identifica personalmente; el identificador anónimo de PostHog se conserva solo hasta que cierre la pestaña.</li>
+          <li><strong>Cómo nos encontró:</strong> al enviar el formulario de contacto, se incluye también cómo llegó por primera vez a nuestro sitio (por ejemplo, un buscador, LinkedIn o un enlace de campaña), la fecha de esa primera visita y el botón que lo llevó al formulario. Esto se guarda en su navegador y solo se envía con el formulario.</li>
         </ul>
 
         <h2>Cómo la usamos</h2>
         <p>Solo para responder su consulta, preparar la propuesta que nos solicite, agendar llamadas y dar seguimiento a esa conversación. No vendemos, alquilamos ni compartimos su información con terceros para fines de mercadeo.</p>
 
         <h2>Dónde se guarda</h2>
-        <p>Los mensajes del formulario se envían por correo a nuestro equipo y se registran en una hoja de Google privada en nuestra cuenta de Google Workspace. Las citas quedan en nuestro Google Calendar. El sitio está alojado en Vercel. Estos proveedores procesan los datos en nuestro nombre bajo sus propios términos de seguridad y privacidad.</p>
+        <p>Los mensajes del formulario se envían por correo a nuestro equipo y se registran en una hoja de Google privada en nuestra cuenta de Google Workspace. Las citas quedan en nuestro Google Calendar. El sitio está alojado en Vercel, y la analítica de uso la procesa PostHog en Estados Unidos. Estos proveedores procesan los datos en nuestro nombre bajo sus propios términos de seguridad y privacidad.</p>
 
         <h2>Por cuánto tiempo</h2>
         <p>Conservamos las consultas el tiempo necesario para atender la conversación y la relación de negocio que resulte, y las eliminamos si usted lo solicita.</p>
