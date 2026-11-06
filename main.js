@@ -13,7 +13,10 @@
     "nav.models": "Cómo trabajamos",
     "nav.team": "Equipo",
     "nav.careers": "Empleos",
-    "nav.cta": "Hablemos",
+    "nav.cta": "Agendar",
+    "book.k": "La vía más rápida",
+    "book.t": "Elija un horario para una llamada de 30 minutos por Google Meet.",
+    "book.cta": "Agendar llamada",
 
     "hero.kicker": "Equipos nearshore · Santo Domingo <b>→</b> Estados Unidos",
     "hero.title": "Su equipo,<br /><span class=\"nw\">encendid" + PWR + ".</span>",

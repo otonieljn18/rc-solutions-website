@@ -239,6 +239,9 @@ svg use { pointer-events: none; }
 /* ---------- Contact ---------- */
 .contact { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(3rem, 7vw, 7rem); }
 .contact__title { font-size: clamp(3rem, 7vw, 6.2rem); letter-spacing: -0.03em; margin: 2rem 0 1.6rem; }
+.book { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem 2rem; flex-wrap: wrap; margin-top: 2.4rem; padding: 1.4rem 1.6rem; background: var(--stone); border-left: 3px solid var(--orange); }
+.book__k { font-size: .72rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--orange-ink); }
+.book__t { font-size: 1.05rem; margin-top: .3rem; max-width: 22rem; }
 .direct { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; padding-top: 2rem; border-top: 1.5px solid var(--ink); }
 .direct__k { font-size: .74rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--orange-ink); margin-bottom: .6rem; }
 .direct p:not(.direct__k) { font-weight: 500; }
