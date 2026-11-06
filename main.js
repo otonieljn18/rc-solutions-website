@@ -159,8 +159,18 @@
   };
 
   const MSG = {
-    en: { required: "Please add your name, a valid email and a short message.", opening: "Opening your email app… If nothing happens, write to arincon@rcsolucionesrpa.com." },
-    es: { required: "Por favor agregue su nombre, un correo válido y un mensaje.", opening: "Abriendo su aplicación de correo… Si no ocurre nada, escriba a arincon@rcsolucionesrpa.com." }
+    en: {
+      required: "Please add your name, a valid email and a short message.",
+      sending: "Sending…",
+      sent: "Thank you — your message is in. We'll reply within one business day.",
+      failed: "We couldn't send it right now. Opening your email app instead…"
+    },
+    es: {
+      required: "Por favor agregue su nombre, un correo válido y un mensaje.",
+      sending: "Enviando…",
+      sent: "Gracias — recibimos su mensaje. Le responderemos en un día hábil.",
+      failed: "No pudimos enviarlo en este momento. Abriendo su aplicación de correo…"
+    }
   };
 
   document.documentElement.classList.remove("no-js");
@@ -223,10 +233,23 @@
     items.forEach((el) => el.classList.add("in"));
   }
 
-  /* ---------- Contact form (opens the visitor's email app) ---------- */
+  /* ---------- Contact form ----------
+     Posts to a Google Apps Script web app owned by orincon@rcsolucionesrpa.com, which emails the
+     lead to the team (reply-to = visitor) and logs it in the "RC Solutions — Website leads" sheet.
+     If that fails, falls back to opening the visitor's email app. */
+  const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxS1AwOZjydkxCSH5kacU0YjRTGAwV7Vfa9Z6dbRJPfnoZZP7FC1VVVe7UMBESIifiv/exec";
   const form = document.getElementById("contact-form");
   const note = document.getElementById("form-note");
-  form.addEventListener("submit", (e) => {
+  const sendBtn = form.querySelector('button[type="submit"]');
+  const openedAt = Date.now();
+
+  function mailtoFallback(d) {
+    const subject = `[RC Solutions] ${d.interest} — ${d.company || d.name}`;
+    const body = `Name: ${d.name}\nCompany: ${d.company}\nEmail: ${d.email}\nInterest: ${d.interest}\n\n${d.message}`;
+    window.location.href = "mailto:arincon@rcsolucionesrpa.com,orincon@rcsolucionesrpa.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  }
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const f = form.elements;
     let ok = true;
@@ -236,11 +259,33 @@
       if (!valid) ok = false;
     });
     if (!ok) { note.textContent = MSG[lang].required; return; }
-    const interest = form.querySelector('input[name="interest"]:checked').value;
-    const subject = `[RC Solutions] ${interest} — ${f.company.value || f.name.value}`;
-    const body = `Name: ${f.name.value}\nCompany: ${f.company.value}\nEmail: ${f.email.value}\nInterest: ${interest}\n\n${f.message.value}`;
-    note.textContent = MSG[lang].opening;
-    window.location.href = "mailto:arincon@rcsolucionesrpa.com,orincon@rcsolucionesrpa.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+
+    const data = {
+      name: f.name.value.trim(),
+      company: f.company.value.trim(),
+      email: f.email.value.trim(),
+      interest: form.querySelector('input[name="interest"]:checked').value,
+      message: f.message.value.trim(),
+      lang,
+      website: f.website.value,            // honeypot: humans never fill this
+      elapsed: Date.now() - openedAt
+    };
+
+    sendBtn.disabled = true;
+    note.textContent = MSG[lang].sending;
+    try {
+      // text/plain keeps this a "simple" request (no CORS preflight), which Apps Script supports.
+      const res = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
+      const out = await res.json();
+      if (!out.ok) throw new Error(out.error || "failed");
+      form.reset();
+      note.textContent = MSG[lang].sent;
+    } catch (err) {
+      note.textContent = MSG[lang].failed;
+      setTimeout(() => mailtoFallback(data), 1200);
+    } finally {
+      sendBtn.disabled = false;
+    }
   });
 
   /* "Scope a Power Platform pilot" pre-selects Power Platform in the form */

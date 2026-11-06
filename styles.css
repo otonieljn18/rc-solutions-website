@@ -267,6 +267,8 @@ svg use { pointer-events: none; }
 .chips input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--white); }
 .chips input:focus-visible + span { outline: 2px solid var(--orange); outline-offset: 2px; }
 .form__note { font-size: .92rem; color: var(--grey); min-height: 1.2em; }
+.form button[disabled] { opacity: .6; cursor: progress; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* ---------- Footer ---------- */
 .footer { background: var(--ink); color: var(--grey-light); padding: clamp(4rem, 8vw, 6rem) 0 2rem; }
