@@ -155,7 +155,9 @@
     "f.send": "Enviar mensaje",
 
     "foot.tag": "Equipos nearshore de automatización e ingeniería.<br />Santo Domingo, República Dominicana — al servicio de Estados Unidos.",
-    "foot.rights": "Todos los derechos reservados."
+    "foot.rights": "Todos los derechos reservados.",
+    "foot.privacy": "Política de privacidad",
+    "wa.label": "WhatsApp"
   };
 
   const MSG = {
@@ -188,6 +190,9 @@
     document.documentElement.lang = lang;
     document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
     try { localStorage.setItem("rc-lang", lang); } catch (e) {}
+    const waText = lang === "es" ? "Hola RC Solutions, me gustaría conversar sobre un proyecto." : "Hi RC Solutions, I'd like to talk about a project.";
+    document.querySelectorAll("[data-wa]").forEach((a) => { a.href = "https://wa.me/18498784733?text=" + encodeURIComponent(waText); });
+    document.querySelectorAll("[data-privacy]").forEach((a) => { a.href = lang === "es" ? "privacy.html?lang=es" : "privacy.html"; });
     tick();
   }
 

@@ -279,6 +279,22 @@ svg use { pointer-events: none; }
 .footer a { text-decoration: none; }
 .footer a:hover { color: var(--orange); }
 
+.footer__bottom a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- WhatsApp quick contact ---------- */
+.wa {
+  position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 40;
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .75rem 1.05rem .75rem .85rem; border-radius: 999px;
+  background: #25d366; color: #0b2e17; text-decoration: none;
+  font: 600 .85rem/1 var(--font); letter-spacing: .04em;
+  box-shadow: 0 10px 28px -10px rgba(0,0,0,.45);
+  transition: transform .25s var(--ease), box-shadow .25s;
+}
+.wa svg { width: 1.45rem; height: 1.45rem; }
+.wa:hover { transform: translateY(-2px); box-shadow: 0 14px 32px -10px rgba(0,0,0,.5); }
+@media (max-width: 640px) { .wa span { display: none; } .wa { padding: .8rem; } }
+
 /* ---------- Reveal ---------- */
 .rv { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
 .rv.in { opacity: 1; transform: none; }
