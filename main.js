@@ -151,6 +151,38 @@
     "f.o6": "Célula gestionada",
     "f.o7": "Power Platform",
     "f.o8": "Colocación directa",
+
+    "bench.label": "Nuestro talento",
+    "bench.title": "Personas reales, listas para unirse a su equipo.",
+    "bench.lead": "Una muestra de los profesionales bilingües disponibles hoy. Mantenemos sus nombres en privado; compartimos CV completos y entrevistas a solicitud.",
+    "bench.ind": "Industrias",
+    "bench.eng": "Inglés",
+    "bench.cta": "Solicitar perfil completo",
+    "bench.p1.lvl": "Senior",
+    "bench.p1.t": "Ingeniero de Datos y Arquitecto de Data Warehouse",
+    "bench.p1.y": "30+ años en TI · 5+ años en ingeniería de datos remota para EE. UU. y Puerto Rico",
+    "bench.p1.h": "Migró datos de salud desde AS400 a una plataforma moderna; construyó pipelines en Snowflake y modelos estrella para un producto de gestión de ingresos en EE. UU.",
+    "bench.p1.i": "Salud en EE. UU. (reclamaciones y beneficios), hotelería",
+    "bench.p1.e": "Nivel nativo",
+    "bench.p2.lvl": "Líder",
+    "bench.p2.t": "Ingeniero iOS y Full-Stack",
+    "bench.p2.y": "14+ años · 5+ años liderando iOS para un equipo de producto en EE. UU.",
+    "bench.p2.h": "Líder en una app de entrenamiento en EE. UU. con 4.8★ y 1,100+ reseñas; entregó 10+ funcionalidades mayores y lideró la migración de UIKit a SwiftUI.",
+    "bench.p2.i": "Apps de consumo en EE. UU., banca, telecom, energía",
+    "bench.p2.e": "Profesional completo",
+    "bench.p3.lvl": "5+ años",
+    "bench.p3.t": "Especialista en QA — Fintech, Telecom e IA",
+    "bench.p3.y": "Con frecuencia la única persona de QA del equipo, a cargo de todo el ciclo de pruebas",
+    "bench.p3.h": "Validó integraciones de pagos y contabilidad (Stripe, QuickBooks, Xero), lanzamientos empresariales de telecom y el comportamiento de un asistente de IA mediante pruebas de prompts.",
+    "bench.p3.i": "Telecom en EE. UU., SaaS en EE. UU., banca",
+    "bench.p3.e": "Avanzado",
+    "bench.p4.lvl": "5+ años",
+    "bench.p4.t": "Especialista en QA — Web, Móvil y API",
+    "bench.p4.y": "Pruebas manuales, de regresión y de API en equipos Agile",
+    "bench.p4.h": "Probó solicitudes de préstamo en banca móvil y una plataforma de lealtad, y luego un SaaS de comunicación empresarial en EE. UU. en web y móvil.",
+    "bench.p4.i": "Banca, SaaS en EE. UU.",
+    "bench.p4.e": "Avanzado",
+    "bench.foot": "¿Necesita otro perfil? Reclutamos a su medida en Santo Domingo y Santiago — cada candidato es evaluado en arquitectura por nuestro arquitecto principal y en liderazgo por nuestro director en el país.",
     "f.msg": "¿Cómo podemos ayudarle?",
     "f.send": "Enviar mensaje",
 
@@ -292,6 +324,16 @@
       sendBtn.disabled = false;
     }
   });
+
+  /* "Request full profile" on a bench card pre-fills the contact form */
+  document.querySelectorAll("[data-bench]").forEach((a) => a.addEventListener("click", () => {
+    const id = a.dataset.bench;
+    const r = form.querySelector('input[name="interest"][value="Staff augmentation"]');
+    if (r) r.checked = true;
+    form.elements.message.value = lang === "es"
+      ? `Me gustaría recibir el perfil completo de ${id} y conocer su disponibilidad.`
+      : `I'd like the full profile for ${id} and to check availability.`;
+  }));
 
   /* "Scope a Power Platform pilot" pre-selects Power Platform in the form */
   document.querySelectorAll("[data-pp-cta]").forEach((a) => a.addEventListener("click", () => {
