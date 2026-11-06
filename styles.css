@@ -172,7 +172,7 @@ svg use { pointer-events: none; }
 
 /* ---------- Meet the bench ---------- */
 .bench__lead { margin-top: 1.4rem; }
-.bench { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+.bench { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
 .pro {
   position: relative; display: flex; flex-direction: column;
   padding: 1.8rem 1.6rem 1.6rem; border: 1px solid var(--line); background: var(--white);
@@ -196,6 +196,10 @@ svg use { pointer-events: none; }
 .pro__cta { margin-top: 1.2rem; align-self: flex-start; font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; border-bottom: 1.5px solid var(--orange); padding-bottom: 3px; }
 .pro__cta i { font-style: normal; transition: margin .3s var(--ease); }
 .pro__cta:hover i { margin-left: .3rem; }
+.pro--more { background: var(--ink); border-color: var(--ink); justify-content: center; }
+.pro--more h3 { color: var(--white); margin-top: 0; font-size: 1.6rem; }
+.pro--more .pro__hl { color: var(--grey-light); }
+.pro--more .pro__cta { color: var(--white); margin-top: 1.6rem; }
 .bench__foot { margin-top: 2.2rem; max-width: 46rem; color: var(--grey); font-weight: 300; }
 
 /* ---------- Case studies ---------- */
